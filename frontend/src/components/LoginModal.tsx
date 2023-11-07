@@ -1,5 +1,7 @@
-import { Button, Form, Modal } from "react-bootstrap";
+import { useState } from "react";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { UnauthorizedError } from "../errors/http_errors";
 import { User } from "../models/user";
 import * as NotesApi from "../network/notes_api";
 import { LoginCredentials } from "../network/notes_api";
@@ -18,12 +20,18 @@ const LoginModal = ({ onDismiss, onLoginSuccessful }: LoginModalProps) => {
     formState: { errors, isSubmitting },
   } = useForm<LoginCredentials>();
 
-  async function onSubmit(credintials: LoginCredentials) {
+  const [errorText, setErrorText] = useState<string | null>(null);
+
+  async function onSubmit(credentials: LoginCredentials) {
     try {
-      const user = await NotesApi.login(credintials);
+      const user = await NotesApi.login(credentials);
       onLoginSuccessful(user);
     } catch (error) {
-      alert(error);
+      if (error instanceof UnauthorizedError) {
+        setErrorText(error.message);
+      } else {
+        alert(error);
+      }
       console.error(error);
     }
   }
@@ -34,6 +42,7 @@ const LoginModal = ({ onDismiss, onLoginSuccessful }: LoginModalProps) => {
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {errorText && <Alert variant="danger">{errorText}</Alert>}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <TextInputField
             name="username"

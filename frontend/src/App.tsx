@@ -9,6 +9,7 @@ import * as NotesApi from "./network/notes_api";
 import NotFoundPage from "./pages/NotFoundPage";
 import NotesPage from "./pages/NotesPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import styles from "./styles/App.module.css";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -37,7 +38,7 @@ function App() {
           onSignUpClicked={() => setShowSignUpModal(true)}
           onLogoutSuccessful={() => setLoggedInUser(null)}
         />
-        <Container>
+        <Container className={styles.pageContainer}>
           <Routes>
             <Route
               path="/"
