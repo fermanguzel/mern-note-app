@@ -1,9 +1,10 @@
 import express from "express";
 import * as NotesControllers from "../controllers/notes";
+import { requiresAuth } from "../middleware/auth";
 
 const router = express.Router();
 
-router.get("/", NotesControllers.getNotes);
+router.get("/", requiresAuth, NotesControllers.getNotes);
 
 router.get("/:noteId", NotesControllers.getNote);
 

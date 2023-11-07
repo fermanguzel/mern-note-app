@@ -1,10 +1,10 @@
+import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { User } from "../models/user";
-import { LoginCredentials } from "../network/notes_api";
 import * as NotesApi from "../network/notes_api";
-import { Button, Form, Modal } from "react-bootstrap";
-import TextInputField from "./form/TextInputField";
+import { LoginCredentials } from "../network/notes_api";
 import styleUtils from "../styles/utils.module.css";
+import TextInputField from "./form/TextInputField";
 
 interface LoginModalProps {
   onDismiss: () => void;
@@ -31,7 +31,7 @@ const LoginModal = ({ onDismiss, onLoginSuccessful }: LoginModalProps) => {
   return (
     <Modal show onHide={onDismiss}>
       <Modal.Header closeButton>
-        <Modal.Title>Sign Up</Modal.Title>
+        <Modal.Title>Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit(onSubmit)}>
